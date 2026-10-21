@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dez Waag">
+<meta name="dcterms.date" content="2026-10-21">
+
+<title>Habitat Suitability and Sex Ratios in the Sonoran Desert Bark Beetle</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="beetle-point-data-final_files/libs/clipboard/clipboard.min.js"></script>
+<script src="beetle-point-data-final_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="beetle-point-data-final_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="beetle-point-data-final_files/libs/quarto-html/popper.min.js"></script>
+<script src="beetle-point-data-final_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="beetle-point-data-final_files/libs/quarto-html/anchor.min.js"></script>
+<link href="beetle-point-data-final_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="beetle-point-data-final_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="beetle-point-data-final_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="beetle-point-data-final_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="beetle-point-data-final_files/libs/bootstrap/bootstrap-215b371544c282197b31c8aa00ce3677.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="beetle-point-data-final_files/libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+
+<script src="beetle-point-data-final_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="beetle-point-data-final_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="beetle-point-data-final_files/libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+
+<script src="beetle-point-data-final_files/libs/leaflet-1.3.1/leaflet.js"></script>
+
+<link href="beetle-point-data-final_files/libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+
+<script src="beetle-point-data-final_files/libs/proj4-2.6.2/proj4.min.js"></script>
+
+<script src="beetle-point-data-final_files/libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+
+<link href="beetle-point-data-final_files/libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+
+<script src="beetle-point-data-final_files/libs/leaflet-binding-2.2.3/leaflet.js"></script>
+
+<script src="beetle-point-data-final_files/libs/leaflet-providers-3.0.0/leaflet-providers.js"></script>
+
+<script src="beetle-point-data-final_files/libs/leaflet-providers-plugin-2.2.3/leaflet-providers-plugin.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
+  <ul class="collapse">
+  <li><a href="#the-data---preprocessing" id="toc-the-data---preprocessing" class="nav-link" data-scroll-target="#the-data---preprocessing">The Data - Preprocessing</a></li>
+  <li><a href="#statistical-analysis" id="toc-statistical-analysis" class="nav-link" data-scroll-target="#statistical-analysis">Statistical Analysis</a></li>
+  <li><a href="#spatial-analysis" id="toc-spatial-analysis" class="nav-link" data-scroll-target="#spatial-analysis">Spatial Analysis</a>
+  <ul class="collapse">
+  <li><a href="#converting-to-spatial-features" id="toc-converting-to-spatial-features" class="nav-link" data-scroll-target="#converting-to-spatial-features">Converting to Spatial Features</a></li>
+  <li><a href="#distance-between-selected-sites" id="toc-distance-between-selected-sites" class="nav-link" data-scroll-target="#distance-between-selected-sites">Distance Between Selected Sites</a></li>
+  <li><a href="#interactive-map-of-sampling-locations" id="toc-interactive-map-of-sampling-locations" class="nav-link" data-scroll-target="#interactive-map-of-sampling-locations">Interactive Map of Sampling Locations</a></li>
+  <li><a href="#reprojection-to-utm-zone-12n" id="toc-reprojection-to-utm-zone-12n" class="nav-link" data-scroll-target="#reprojection-to-utm-zone-12n">Reprojection to UTM Zone 12N</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <ul class="collapse">
+  <li><a href="#habitat-suitability-and-sex-ratio" id="toc-habitat-suitability-and-sex-ratio" class="nav-link" data-scroll-target="#habitat-suitability-and-sex-ratio">Habitat Suitability and Sex Ratio</a></li>
+  <li><a href="#spatial-distribution" id="toc-spatial-distribution" class="nav-link" data-scroll-target="#spatial-distribution">Spatial Distribution</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a>
+  <ul class="collapse">
+  <li><a href="#appendix-study-notes" id="toc-appendix-study-notes" class="nav-link" data-scroll-target="#appendix-study-notes">Appendix: Study Notes</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Habitat Suitability and Sex Ratios in the Sonoran Desert Bark Beetle</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dez Waag </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 21, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    This analysis examined the relationship between habitat suitability and sampled sex ratios of the Sonoran Desert bark beetle <em>Araptus attenuatus</em> across 31 sites. Higher habitat suitability was associated with lower male-to-female ratios (Pearson’s r = −0.400, p = 0.026), while spatial mapping provided geographic context without formally testing spatial clustering.
+  </div>
+</div>
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>The Sonoran Desert bark beetle (<em>Araptus attenuatus</em>) is a plant-feeding beetle associated with the desert shrub <em>Euphorbia lomelii</em> in northwestern Mexico. Examining sex ratios across habitats can help identify whether environmental suitability is associated with differences in the relative numbers of sampled males and females. This analysis investigated that relationship and used spatial maps to explore its geographic context.</p>
+<center>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://www.monarthrum.info/beetle_images/pix/2214_araptus_attenuatus_m_frontal.jpg" class="img-fluid figure-img"></p>
+<figcaption><em>Araptus attenuatus</em> (female). (by TH Atkinson, Florida State Collection of Arthropods, Gainesville, Florida).</figcaption>
+</figure>
+</div>
+</center>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.1     ✔ readr     2.2.0
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.3     ✔ tibble    3.3.1
+✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+✔ purrr     1.2.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Linking to GEOS 3.14.1, GDAL 3.12.1, PROJ 9.7.1; sf_use_s2() is TRUE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(units)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>udunits database from C:/Users/dwaag/AppData/Local/R/win-library/4.6/units/share/udunits/udunits2.xml</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wesanderson)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="fu">wes_palette</span>(<span class="st">"Cavalcanti1"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="methods" class="level1">
+<h1>Methods</h1>
+<section id="the-data---preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="the-data---preprocessing">The Data - Preprocessing</h2>
+<p>For this analysis, site-level data for the <strong>Sonoran Desert bark beetle</strong> (<em>Araptus attenuatus</em>) were obtained from the class <a href="https://dyerlabteaching.github.io/CourseData/">CourseData</a> repository. The CSV file was imported into R using <code>read_csv()</code> and stored in the <code>beetles</code> data table.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://dyerlabteaching.github.io/CourseData/Spatial/AraptusDispersalBias.csv"</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>beetles <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(url)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 31 Columns: 9
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): Site
+dbl (8): Males, Females, Suitability, MFRatio, GenVarArapat, GenVarEuphli, L...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>The dataset contains 31 sampling sites and nine variables, with each row representing one site. Variables used in this analysis included male and female counts, habitat suitability, male-to-female ratio, and geographic coordinates. Each site was treated as one observation.</p>
+<p>The supplied <code>MFRatio</code> variable represents the number of sampled males divided by the number of sampled females. Values above 1 indicate male-biased samples, values below 1 indicate female-biased samples, and a value of 1 indicates equal numbers. Its distribution was inspected using <code>summary()</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>( beetles<span class="sc">$</span>MFRatio)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.5938  0.8778  1.1200  1.1598  1.3618  2.2000 </code></pre>
+</div>
+</div>
+<p>The summary shows that sampled sex ratios fall both below and above 1, indicating that the dataset includes both female-biased and male-biased samples. Each site was treated as one observation in the subsequent analysis.</p>
+</section>
+<section id="statistical-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-analysis">Statistical Analysis</h2>
+<p>A two-sided Pearson correlation test was used to evaluate the linear association between habitat suitability and male-to-female ratio across sampling sites. Statistical significance was evaluated at <span class="math inline">\(\alpha = 0.05\)</span>.</p>
+<p>The hypotheses were:</p>
+<ul>
+<li><strong>Null hypothesis:</strong> Habitat suitability and male-to-female ratio have no linear correlation in the population of sites.</li>
+<li><strong>Alternative hypothesis:</strong> Habitat suitability and male-to-female ratio have a linear correlation, either positive or negative.</li>
+</ul>
+<p>The test was performed using <code>cor.test()</code>, and the results were stored in <code>sex_habitat_cor</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sex_habitat_cor <span class="ot">&lt;-</span> <span class="fu">cor.test</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  beetles<span class="sc">$</span>Suitability,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  beetles<span class="sc">$</span>MFRatio,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"pearson"</span> )</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>sex_habitat_cor</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's product-moment correlation
+
+data:  beetles$Suitability and beetles$MFRatio
+t = -2.3484, df = 29, p-value = 0.02589
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.66051230 -0.05287575
+sample estimates:
+       cor 
+-0.3997266 </code></pre>
+</div>
+</div>
+<p>The output indicated a moderate negative correlation (<span class="math inline">\(r = -0.400\)</span>, <span class="math inline">\(p = 0.026\)</span>). At a significance threshold of 0.05, this supported rejecting the null hypothesis. The 95% confidence interval for the correlation (−0.661 to −0.053) also excluded zero.</p>
+<p>Across the 31 sampling sites, higher habitat suitability was associated with lower male-to-female ratios. However, a lower ratio does not necessarily indicate a female-biased sample; the ratio must fall below 1 for females to outnumber males. This association does not establish that habitat suitability caused the differences in sampled sex ratios.</p>
+<p>The correlation test treated sites as independent observations and did not account for potential spatial dependence, meaning that nearby sites could share characteristics that influence the analysis.</p>
+</section>
+<section id="spatial-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-analysis">Spatial Analysis</h2>
+<p>Spatial analysis was used to examine sampling locations, calculate the distance between two selected sites, and prepare the data for geographic visualization. Spatial patterns were examined descriptively; no formal test of spatial clustering was performed.</p>
+<section id="converting-to-spatial-features" class="level3">
+<h3 class="anchored" data-anchor-id="converting-to-spatial-features">Converting to Spatial Features</h3>
+<p>Sampling-site coordinates were converted into spatial point features using the <code>sf</code> package. Longitude and latitude were identified as the coordinate columns, and the WGS 84 geographic coordinate reference system (EPSG:4326) was assigned to describe their existing values in degrees.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>beetles_sf <span class="ot">&lt;-</span> beetles <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"Longitude"</span>, <span class="st">"Latitude"</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">crs =</span> <span class="dv">4326</span> )</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(beetles_sf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 6 features and 7 fields
+Geometry type: POINT
+Dimension:     XY
+Bounding box:  xmin: -114.2935 ymin: 24.00789 xmax: -109.327 ymax: 29.32541
+Geodetic CRS:  WGS 84
+# A tibble: 6 × 8
+  Site  Males Females Suitability MFRatio GenVarArapat GenVarEuphli
+  &lt;chr&gt; &lt;dbl&gt;   &lt;dbl&gt;       &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
+1 32       40      27      0.0563    1.48        0.144       0.219 
+2 73       11       5      0.146     2.2         0.137       0.253 
+3 93       25      21      0.163     1.19        0.163       0.133 
+4 const    18      11      0.174     1.64        0.280       0.235 
+5 159      22      15      0.188     1.47        0.160       0.0809
+6 88       23      18      0.219     1.28        0.266       0.176 
+# ℹ 1 more variable: geometry &lt;POINT [°]&gt;</code></pre>
+</div>
+</div>
+<p>The output displays the first six sampling sites as point features. Their coordinates are stored in a geometry column, while attributes such as habitat suitability and male-to-female ratio remain associated with each site.</p>
+</section>
+<section id="distance-between-selected-sites" class="level3">
+<h3 class="anchored" data-anchor-id="distance-between-selected-sites">Distance Between Selected Sites</h3>
+<p>Constitución (<code>const</code>) and San Francisquito (<code>sfran</code>) were selected to calculate their geographic separation. The <code>st_distance()</code> function calculated the distance between the spatial points, and <code>set_units()</code> converted the result to kilometers.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>site_distance <span class="ot">&lt;-</span> beetles_sf <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Site <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"const"</span>, <span class="st">"sfran"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_distance</span>() <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_units</span>(<span class="st">"km"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>site_distance</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Units: [km]
+       [,1]   [,2]
+[1,]   0.00 290.09
+[2,] 290.09   0.00</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>distance_km <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(site_distance[<span class="dv">1</span>, <span class="dv">2</span>])</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>distance_km</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 290.09</code></pre>
+</div>
+</div>
+<p>The distance matrix contains zeros along the diagonal because each site is compared with itself. The off-diagonal entries show the distance between the two sites. Constitución and San Francisquito are approximately 290.1 km apart. This represents geographic separation rather than travel distance along roads.</p>
+</section>
+<section id="interactive-map-of-sampling-locations" class="level3">
+<h3 class="anchored" data-anchor-id="interactive-map-of-sampling-locations">Interactive Map of Sampling Locations</h3>
+<p>An interactive map was created using <code>leaflet</code> with an Esri satellite imagery basemap. Markers were positioned using each site’s longitude and latitude, and labels identified the sites when hovering over the markers.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>beetles <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">leaflet</span>() <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>Esri.WorldImagery) <span class="sc">|&gt;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addMarkers</span>(</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lng =</span> <span class="sc">~</span>Longitude,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> <span class="sc">~</span>Latitude,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="sc">~</span>Site )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-a84a8e0d02c12d8c9e10" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-a84a8e0d02c12d8c9e10">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldImagery",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addMarkers","args":[[26.63783,24.00789,26.94589,25.0247,27.52944,29.32541,28.66056,25.91409,27.0367,25.60521,26.20876,27.3632,27.18232,27.40498,28.96651,28.03661,25.34819,28.72796,24.87611,24.2115,28.22308,25.55757,28.40846,29.01457,27.2028,24.21441,23.2855,24.13389,24.58843,24.0195,26.0155],[-109.327,-109.85071,-112.04613,-111.675,-113.31609,-114.29353,-113.99141,-112.08062,-112.986,-111.32638,-111.37833,-112.964,-112.66552,-112.52959,-113.66787,-113.39991,-111.60056,-113.48973,-110.69175,-110.951,-113.18263,-111.21563,-112.86985,-113.94486,-112.408,-110.27252,-110.10429,-110.46236,-110.74599,-110.096,-111.35475],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["32","73","93","const","159","88","177","166","161","64","169","sfran","12","160","84","89","51","175","77","163","171","168","173","9","162","48","Aqu","153","75","157","58"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[23.2855,29.32541],"lng":[-114.29353,-109.327]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>The map provides geographic context for the sampling sites across the Baja California peninsula and nearby mainland Mexico. It shows sampling locations; habitat suitability and sex ratio are represented in the subsequent thematic maps.</p>
+</section>
+<section id="reprojection-to-utm-zone-12n" class="level3">
+<h3 class="anchored" data-anchor-id="reprojection-to-utm-zone-12n">Reprojection to UTM Zone 12N</h3>
+<p>The spatial points were transformed from WGS 84 geographic coordinates to WGS 84 / UTM zone 12N (EPSG:32612) using <code>st_transform()</code>. This expresses the locations as easting and northing coordinates in meters.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>beetles_utm <span class="ot">&lt;-</span> beetles_sf <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="dv">32612</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">st_coordinates</span>(beetles_utm))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            X       Y
+[1,] 666529.7 2947413
+[2,] 616893.7 2655577
+[3,] 396155.0 2980872
+[4,] 431898.6 2767852
+[5,] 271258.7 3047215
+[6,] 180128.0 3248545</code></pre>
+</div>
+</div>
+<p>The output shows the first six sites’ projected coordinates, with <code>X</code> representing easting and <code>Y</code> representing northing. Reprojection changes the coordinate representation while preserving the real-world locations and their associated beetle data. The projected dataset was used to produce the UTM map presented in the Results section.</p>
+</section>
+</section>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<section id="habitat-suitability-and-sex-ratio" class="level2">
+<h2 class="anchored" data-anchor-id="habitat-suitability-and-sex-ratio">Habitat Suitability and Sex Ratio</h2>
+<p>Across the 31 sampling sites, habitat suitability ranged from 0.0563 to 0.9019, and male-to-female ratios ranged from 0.5938 to 2.2000. Habitat suitability was moderately negatively correlated with male-to-female ratio (<span class="math inline">\(r = -0.400\)</span>, <span class="math inline">\(p = 0.026\)</span>; 95% confidence interval: −0.661 to −0.053). The relationship is illustrated in <a href="#fig-sex-suitability" class="quarto-xref">Figure&nbsp;1</a>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(beetles, <span class="fu">aes</span>(<span class="at">x =</span> Suitability, <span class="at">y =</span> MFRatio)) <span class="sc">+</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> pal[<span class="dv">1</span>],</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.8</span> ) <span class="sc">+</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"lm"</span>,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> y <span class="sc">~</span> x,</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> pal[<span class="dv">5</span>],</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> pal[<span class="dv">2</span>],</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">se =</span> <span class="cn">TRUE</span> ) <span class="sc">+</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">yintercept =</span> <span class="dv">1</span>,</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"gray40"</span> ) <span class="sc">+</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Beetle Sex Ratio and Habitat Suitability"</span>,</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Habitat suitability"</span>,</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Male-to-female ratio"</span> ) <span class="sc">+</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-sex-suitability" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sex-suitability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="beetle-point-data-final_files/figure-html/fig-sex-suitability-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sex-suitability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Relationship between habitat suitability and sampled male-to-female ratio across 31 beetle sampling sites. Each point represents one site. The solid line shows a fitted linear regression, and shading represents its 95% confidence interval for the mean response. The dashed horizontal line marks equal numbers of sampled males and females.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The downward slope of the fitted regression line indicates that higher habitat suitability was associated with lower male-to-female ratios. Points occur both above and below the reference line at 1, representing male-biased and female-biased samples, respectively. Variation around the fitted line shows that sites with similar suitability scores could have different sampled sex ratios, and higher suitability did not consistently correspond to female-biased samples.</p>
+<p>Together, these results support an association between habitat suitability and sampled sex ratio. However, they do not establish that suitability caused the observed differences or directly demonstrate sex-biased dispersal.</p>
+</section>
+<section id="spatial-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-distribution">Spatial Distribution</h2>
+<p>Sampling sites extended from approximately 23.29°N to 29.33°N and from 114.29°W to 109.33°W, spanning the Baja California peninsula and nearby mainland Mexico. Constitución and San Francisquito were approximately 290.1 km apart. Differences in habitat suitability and sampled sex ratio were displayed at each sampling location in <a href="#fig-spatial-pattern" class="quarto-xref">Figure&nbsp;2</a>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(beetles_sf) <span class="sc">+</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">color =</span> MFRatio, <span class="at">size =</span> Suitability),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.85</span> ) <span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gradient2</span>(</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">low =</span> pal[<span class="dv">1</span>],</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mid =</span> pal[<span class="dv">3</span>],</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">high =</span> pal[<span class="dv">5</span>],</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">midpoint =</span> <span class="dv">1</span>,</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Male-to-female</span><span class="sc">\n</span><span class="st">ratio"</span> ) <span class="sc">+</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_continuous</span>(</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">7</span>),</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Habitat suitability"</span> ) <span class="sc">+</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Spatial Patterns in Beetle Sex Ratio and Habitat Suitability"</span>,</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Longitude"</span>,</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Latitude"</span> ) <span class="sc">+</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-spatial-pattern" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-spatial-pattern-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="beetle-point-data-final_files/figure-html/fig-spatial-pattern-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-spatial-pattern-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Spatial distribution of sampled beetle sex ratios and habitat suitability. Point color indicates the male-to-female ratio, with the color scale centered at equal numbers of males and females (1). Larger points indicate higher habitat suitability.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Larger points represent sites with higher habitat suitability. The color scale is centered on a male-to-female ratio of 1, shown in yellow, with lower ratios extending toward blue and higher ratios toward red. These symbols allow habitat suitability and sampled sex ratio to be compared geographically.</p>
+<p>The same sampling sites are displayed in WGS 84 / UTM zone 12N in <a href="#fig-utm-map" class="quarto-xref">Figure&nbsp;3</a>, with easting and northing coordinates expressed in meters.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(beetles_utm) <span class="sc">+</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">color =</span> MFRatio, <span class="at">size =</span> Suitability),</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.85</span> ) <span class="sc">+</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gradient2</span>(</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">low =</span> pal[<span class="dv">1</span>],</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mid =</span> pal[<span class="dv">3</span>],</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">high =</span> pal[<span class="dv">5</span>],</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">midpoint =</span> <span class="dv">1</span>,</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Male-to-female</span><span class="sc">\n</span><span class="st">ratio"</span> ) <span class="sc">+</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_continuous</span>(</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">7</span>),</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Habitat suitability"</span> ) <span class="sc">+</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">32612</span>),</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">datum =</span> <span class="fu">st_crs</span>(<span class="dv">32612</span>) ) <span class="sc">+</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Beetle Sampling Sites — UTM Zone 12N"</span>,</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Easting (m)"</span>,</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Northing (m)"</span> ) <span class="sc">+</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-utm-map" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-utm-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="beetle-point-data-final_files/figure-html/fig-utm-map-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-utm-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Beetle sampling sites projected to WGS 84 / UTM zone 12N (EPSG:32612). Color represents the sampled male-to-female ratio, and larger points indicate higher habitat suitability. Coordinates are expressed in meters.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Reprojection changed the coordinate representation without changing the sampling locations, habitat suitability scores, or sex ratios. The maps provide geographic context for the association between suitability and sampled sex ratio, but do not establish statistically significant spatial clustering. Because the correlation analysis did not account for spatial dependence, whether the association remains significant after accounting for similarities among nearby sites is unresolved.</p>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>Habitat suitability was moderately negatively associated with sampled male-to-female ratios across the 31 sites, with higher suitability generally corresponding to fewer males relative to females. Spatial maps showed where these differences occurred, although spatial clustering was not formally tested. These findings support an association between habitat suitability and sampled sex ratio, but further analysis would be needed to establish its causes or determine whether it reflects sex-biased dispersal.</p>
+<section id="appendix-study-notes" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-study-notes">Appendix: Study Notes</h2>
+<p>Below are my notes documenting how I worked through and interpreted each step of the analysis. Click a tab to view each page, or click an image to open it on Flickr.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Page 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Page 2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Page 3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Page 4</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Page 5</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://www.flickr.com/photos/204912595@N03/55601726467/"><img src="https://live.staticflickr.com/65535/55601726467_1fa5d5c550_b.jpg" class="img-fluid figure-img" style="width:100.0%"></a></p>
+<figcaption>Study notes, page 1</figcaption>
+</figure>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://www.flickr.com/photos/204912595@N03/55603150665/"><img src="https://live.staticflickr.com/65535/55603150665_24b33ba0a6_b.jpg" class="img-fluid figure-img" style="width:100.0%"></a></p>
+<figcaption>Study notes, page 2</figcaption>
+</figure>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://www.flickr.com/photos/204912595@N03/55602945529/"><img src="https://live.staticflickr.com/65535/55602945529_c0ec14f6e0_b.jpg" class="img-fluid figure-img" style="width:100.0%"></a></p>
+<figcaption>Study notes, page 3</figcaption>
+</figure>
+</div>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://www.flickr.com/photos/204912595@N03/55603150660/"><img src="https://live.staticflickr.com/65535/55603150660_c89991e010_b.jpg" class="img-fluid figure-img" style="width:100.0%"></a></p>
+<figcaption>Study notes, page 4</figcaption>
+</figure>
+</div>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://www.flickr.com/photos/204912595@N03/55602870668/"><img src="https://live.staticflickr.com/65535/55602870668_def01d8bd3_b.jpg" class="img-fluid figure-img" style="width:100.0%"></a></p>
+<figcaption>Study notes, page 5</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
